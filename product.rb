@@ -152,8 +152,8 @@ class Product
     return ''
   end
 
-  def simple_product_attributes size
-    child = SimpleProduct.new(static_attributes(size), self)
+  def simple_product_attributes combination 
+    child = SimpleProduct.new(static_attributes(combination), self)
     child.attributes
   end
 
@@ -165,12 +165,27 @@ class Product
     @keys.map{|header| header.to_s.gsub('@', '').gsub('_', ' ').capitalize }
   end
 
-  def static_attributes size
-    {
+  def static_attributes combination 
+    opts = {
       :handle => @handle,
-      :option1_name => @option1_name,
-      :option1_value => size
     }
+    
+    if combination.length() >= 1
+      opts["option1_name"] = @option1_name
+      opts["option1_value"] = combination[0]
+    end 
+    
+    if combination.length() >= 2 
+      opts["option2_name"] = @option2_name
+      opts["option2_value"] = combination[1]
+    end 
+    
+    if combination.length() >= 3 
+      opts["option3_name"] = @option3_name
+      opts["option3_value"] = combination[2]
+    end 
+
+    return opts 
   end
 
 end
